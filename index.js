@@ -12,6 +12,10 @@ app.use(cors());
 app.use(bodyparser.urlencoded({ extended: false }));
 app.use(bodyparser.json());
 
+app.get('/', (req, res) => {
+  res.send('Hola')
+});
+
 app.post('/mail', async(req, res)=>{
     const{nombre, email, msj} = req.body;
     try {

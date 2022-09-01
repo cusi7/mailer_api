@@ -8,8 +8,9 @@
     ],
     "routes": [
         {
-            "src": "/mail", 
+            "src": "/(.*)", 
             "dest": "./index.js"
         }
     ]
 }
+
