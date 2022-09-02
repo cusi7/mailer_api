@@ -44,3 +44,5 @@ app.post('/mail', async(req, res)=>{
 app.listen(3001, () => {
     console.log("Listen in Port 3001")
 });
+
+module.exports = app;
