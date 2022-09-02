@@ -12,7 +12,7 @@ app.use(bodyparser.json());
 
 app.get('/api', (req, res) => {
   res.setHeader('Cache-Control', 's-max-age=1, stale-while-revalidate');
-  res.send('Hola')
+  res.send('Hola enviamos mails?')
 });
 
 app.post('/mail', async(req, res)=>{
