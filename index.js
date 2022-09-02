@@ -1,12 +1,12 @@
 const express = require('express');
-const cors = require('cors');
+// const cors = require('cors');
 const bodyparser = require('body-parser');
 const nodemailer = require('nodemailer');
 
 const app = express();
 
 
-app.use(cors());
+// app.use(cors());
 app.use(bodyparser.urlencoded({ extended: false }));
 app.use(bodyparser.json());
 
