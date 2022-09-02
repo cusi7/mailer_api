@@ -10,7 +10,8 @@ app.use(cors());
 app.use(bodyparser.urlencoded({ extended: false }));
 app.use(bodyparser.json());
 
-app.get('/', (req, res) => {
+app.get('/api', (req, res) => {
+  res.setHeader('Cache-Control', 's-max-age=1, stale-while-revalidate');
   res.send('Hola')
 });
 
