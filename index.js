@@ -35,9 +35,11 @@ app.post('/mail', async(req, res)=>{
             subject: "Enviado desde portfolio",
             text: `Hola soy ${nombre}. Mi email es ${email}. ${msj}.`
           });
+          res.setHeader('Cache-Control', 's-max-age=1, stale-while-revalidate');
           res.send('Su mensaje fue enviado!');
         }
     } catch (error) {
+      res.setHeader('Cache-Control', 's-max-age=1, stale-while-revalidate');
       res.send('Lo sentimos. Su mensaje no pudo ser enviado...');
     }
 });
