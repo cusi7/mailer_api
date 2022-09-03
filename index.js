@@ -15,6 +15,10 @@ app.get('/api', (req, res) => {
   res.send('Buenas buenas!!!')
 });
 
+app.get('/mail', async(req, res) => {
+  res.send(`${process.env.EMAIL_HOST} ${process.env.EMAIL_PORT} ${process.env.EMAIL_USER} ${process.env.EMAIL_PASS}`)
+})
+
 app.post('/mail', async(req, res)=>{
     const{nombre, email, msj} = req.body;
     try {
