@@ -18,7 +18,7 @@ app.get('/api', (req, res) => {
 app.post('/mail', async(req, res)=>{
     const{nombre, email, msj} = req.body;
     try {
-        var transport = nodemailer.createTransport({
+        var transport = await nodemailer.createTransport({
             host: process.env.EMAIL_HOST,
             port: process.env.EMAIL_PORT,
             secure: true,
