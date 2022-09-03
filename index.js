@@ -15,10 +15,6 @@ app.get('/api', (req, res) => {
   res.send('Buenas buenas!!!')
 });
 
-app.get('/mail', async(req, res) => {
-  res.send(`${process.env.EMAIL_HOST} ${process.env.EMAIL_PORT} ${process.env.EMAIL_USER} ${process.env.EMAIL_PASS}`)
-})
-
 app.post('/mail', async(req, res)=>{
     const{nombre, email, msj} = req.body;
     try {
@@ -33,13 +29,51 @@ app.post('/mail', async(req, res)=>{
           });
         if(email.length > 0 && msj.length > 0) {
           //MAIL
-          const mail = await transport.sendMail({
-            from: `"Portfolio" <${email}>`,
-            to: process.env.EMAIL_USER,
-            subject: "Enviado desde portfolio",
-            text: `Hola soy ${nombre}. Mi email es ${email}. ${msj}.`
-          });
-          res.setHeader('Cache-Control', 's-max-age=1, stale-while-revalidate');
+          // const mail = await transport.sendMail({
+          //   from: `"Portfolio" <${email}>`,
+          //   to: process.env.EMAIL_USER,
+          //   subject: "Enviado desde portfolio",
+          //   text: `Hola soy ${nombre || 'NN'}. Mi email es ${email}. ${msj}.`
+          // });
+          // res.setHeader('Cache-Control', 's-max-age=1, stale-while-revalidate');
+
+          await new Promise((resolve, reject) => {
+            // verify connection configuration
+            transport.verify(function (error, success) {
+                if (error) {
+                    console.log(error);
+                    reject(error);
+                } else {
+                    console.log("Server is ready to take our messages");
+                    resolve(success);
+                }
+            });
+        });
+
+        const mailData = {
+          from: {
+              name: nombre || 'NN' ,
+              address: email,
+          },
+          to: process.env.EMAIL_USER,
+          subject: `form message`,
+          text: msj
+      };
+
+      await new Promise((resolve, reject) => {
+        // send mail
+        transport.sendMail(mailData, (err, info) => {
+            if (err) {
+                console.error(err);
+                reject(err);
+            } else {
+                console.log(info);
+                resolve(info);
+            }
+        });
+    });
+        
+
           res.send('Su mensaje fue enviado!');
         }
     } catch (error) {
