@@ -1,12 +1,13 @@
 const express = require('express');
-// const cors = require('cors');
+const cors = require('cors');
 const bodyparser = require('body-parser');
 const nodemailer = require('nodemailer');
+require('dotenv').config();
 
 const app = express();
 
 
-// app.use(cors());
+app.use(cors());
 app.use(bodyparser.urlencoded({ extended: false }));
 app.use(bodyparser.json());
 
@@ -18,15 +19,24 @@ app.get('/api', (req, res) => {
 app.post('/mail', async(req, res)=>{
     const{nombre, email, msj} = req.body;
     try {
-        var transport = await nodemailer.createTransport({
-            host: process.env.EMAIL_HOST,
-            port: process.env.EMAIL_PORT,
+        const transport = await nodemailer.createTransport({
+            host: 'smtp.gmail.com',
+            port: 465,
             secure: true,
             auth: {
               user: process.env.EMAIL_USER,
               pass: process.env.EMAIL_PASS,
             },
           });
+
+          transport.verify(function (error, success) {
+            if (error) {
+              console.log(error);
+            } else {
+              console.log("Server is ready to take our messages");
+            }
+          });
+
         if(email.length > 0 && msj.length > 0) {
           //MAIL
           const mail = await transport.sendMail({
