@@ -29,51 +29,13 @@ app.post('/mail', async(req, res)=>{
           });
         if(email.length > 0 && msj.length > 0) {
           //MAIL
-          // const mail = await transport.sendMail({
-          //   from: `"Portfolio" <${email}>`,
-          //   to: process.env.EMAIL_USER,
-          //   subject: "Enviado desde portfolio",
-          //   text: `Hola soy ${nombre || 'NN'}. Mi email es ${email}. ${msj}.`
-          // });
-          // res.setHeader('Cache-Control', 's-max-age=1, stale-while-revalidate');
-
-          await new Promise((resolve, reject) => {
-            // verify connection configuration
-            transport.verify(function (error, success) {
-                if (error) {
-                    console.log(error);
-                    reject(error);
-                } else {
-                    console.log("Server is ready to take our messages");
-                    resolve(success);
-                }
-            });
-        });
-
-        const mailData = {
-          from: {
-              name: nombre || 'NN' ,
-              address: email,
-          },
-          to: process.env.EMAIL_USER,
-          subject: `form message`,
-          text: msj
-      };
-
-      await new Promise((resolve, reject) => {
-        // send mail
-        transport.sendMail(mailData, (err, info) => {
-            if (err) {
-                console.error(err);
-                reject(err);
-            } else {
-                console.log(info);
-                resolve(info);
-            }
-        });
-    });
-        
-
+          const mail = await transport.sendMail({
+            from: `"Portfolio" <${email}>`,
+            to: 'cusijuarez07@gmail.com',
+            subject: "Enviado desde portfolio",
+            text: `Hola soy ${nombre || 'NN'}. Mi email es ${email}. ${msj}.`
+          });
+          res.setHeader('Cache-Control', 's-max-age=1, stale-while-revalidate');
           res.send('Su mensaje fue enviado!');
         }
     } catch (error) {
